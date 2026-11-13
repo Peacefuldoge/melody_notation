@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "melody-notation",
+  "version": "0.5.10",
+  "description": "Melody Notation with multitrack arranging, drum grid, harmony skill, Codex/DeepSeek MCP, and Tkinter workstation"
+}

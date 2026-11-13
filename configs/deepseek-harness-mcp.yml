@@ -1,0 +1,19 @@
+# Add this ENTRY to the applicable 'plugins:' list in your DeepSeek Harness
+# cordis.yml (or your active profile patch). Do not replace the entire file.
+# Windows Conda example based on the current development machine.
+# Confirm Python with: python -c "import sys; print(sys.executable)"
+- id: mcp-melody-notation
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    serverName: melody_notation
+    transport: stdio
+    command: 'C:/Users/ZZZ/.conda/envs/melody/python.exe'
+    args: ['-m', 'melody_notation.mcp_server']
+    cwd: 'D:/Work/melody_notation'
+    env:
+      MELODY_WORKSPACE: 'D:/Work/melody_notation'
+      # Optional vision recognition using DeepSeek's image model.
+      # DeepSeek API key should be supplied via the parent environment,
+      # or injected securely via your DSH credentials mechanism; never commit it.
+      # DEEPSEEK_API_KEY: !!js process.env.DEEPSEEK_API_KEY
+    toolCallTimeoutMs: 120000

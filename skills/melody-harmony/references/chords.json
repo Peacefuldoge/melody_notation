@@ -1,0 +1,543 @@
+{
+  "schema_version": "1.0",
+  "reference_root": "C",
+  "note": "情绪仅供创作参考；不是音乐心理学的因果律。符号以C为根示例；转调须正确拼写。",
+  "chords": [
+    {
+      "type": "maj",
+      "example": "C",
+      "notes_C": [
+        "C",
+        "E",
+        "G"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7
+      ],
+      "mood_tendency_zh": "明亮、稳定",
+      "typical_use_zh": "主和弦/明确终止"
+    },
+    {
+      "type": "m",
+      "example": "Cm",
+      "notes_C": [
+        "C",
+        "Eb",
+        "G"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        7
+      ],
+      "mood_tendency_zh": "内省、温柔",
+      "typical_use_zh": "小调中心/抒情"
+    },
+    {
+      "type": "5",
+      "example": "C5",
+      "notes_C": [
+        "C",
+        "G"
+      ],
+      "semitones_from_root": [
+        0,
+        7
+      ],
+      "mood_tendency_zh": "中性、直接",
+      "typical_use_zh": "摇滚、芯片音色"
+    },
+    {
+      "type": "dim",
+      "example": "Cdim",
+      "notes_C": [
+        "C",
+        "Eb",
+        "Gb"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        6
+      ],
+      "mood_tendency_zh": "悬疑、不稳",
+      "typical_use_zh": "导向半音邻近和弦"
+    },
+    {
+      "type": "aug",
+      "example": "Caug",
+      "notes_C": [
+        "C",
+        "E",
+        "G#"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        8
+      ],
+      "mood_tendency_zh": "奇异、漂浮",
+      "typical_use_zh": "过渡与色彩"
+    },
+    {
+      "type": "sus2",
+      "example": "Csus2",
+      "notes_C": [
+        "C",
+        "D",
+        "G"
+      ],
+      "semitones_from_root": [
+        0,
+        2,
+        7
+      ],
+      "mood_tendency_zh": "开阔、朦胧",
+      "typical_use_zh": "氛围、铺底"
+    },
+    {
+      "type": "sus4",
+      "example": "Csus4",
+      "notes_C": [
+        "C",
+        "F",
+        "G"
+      ],
+      "semitones_from_root": [
+        0,
+        5,
+        7
+      ],
+      "mood_tendency_zh": "悬而未决",
+      "typical_use_zh": "挂留/解决"
+    },
+    {
+      "type": "add9",
+      "example": "Cadd9",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "D"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        14
+      ],
+      "mood_tendency_zh": "温暖、怀旧",
+      "typical_use_zh": "民谣/流行"
+    },
+    {
+      "type": "madd9",
+      "example": "Cm(add9)",
+      "notes_C": [
+        "C",
+        "Eb",
+        "G",
+        "D"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        7,
+        14
+      ],
+      "mood_tendency_zh": "苦甜、空灵",
+      "typical_use_zh": "小调抒情"
+    },
+    {
+      "type": "6",
+      "example": "C6",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "A"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        9
+      ],
+      "mood_tendency_zh": "柔和、复古",
+      "typical_use_zh": "爵士终止"
+    },
+    {
+      "type": "m6",
+      "example": "Cm6",
+      "notes_C": [
+        "C",
+        "Eb",
+        "G",
+        "A"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        7,
+        9
+      ],
+      "mood_tendency_zh": "含蓄张力",
+      "typical_use_zh": "电影/爵士"
+    },
+    {
+      "type": "6/9",
+      "example": "C6/9",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "A",
+        "D"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        9,
+        14
+      ],
+      "mood_tendency_zh": "通透、平和",
+      "typical_use_zh": "精巧终止"
+    },
+    {
+      "type": "maj7",
+      "example": "Cmaj7",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "B"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        11
+      ],
+      "mood_tendency_zh": "浪漫、松弛",
+      "typical_use_zh": "大调主/下属"
+    },
+    {
+      "type": "7",
+      "example": "C7",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "Bb"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        10
+      ],
+      "mood_tendency_zh": "推进、蓝调",
+      "typical_use_zh": "V7→I/蓝调I7"
+    },
+    {
+      "type": "m7",
+      "example": "Cm7",
+      "notes_C": [
+        "C",
+        "Eb",
+        "G",
+        "Bb"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        7,
+        10
+      ],
+      "mood_tendency_zh": "松弛、惆怅",
+      "typical_use_zh": "Lo-fi/爵士"
+    },
+    {
+      "type": "mMaj7",
+      "example": "Cm(maj7)",
+      "notes_C": [
+        "C",
+        "Eb",
+        "G",
+        "B"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        7,
+        11
+      ],
+      "mood_tendency_zh": "神秘、纠结",
+      "typical_use_zh": "旋律小调色彩"
+    },
+    {
+      "type": "m7b5",
+      "example": "Cm7b5",
+      "notes_C": [
+        "C",
+        "Eb",
+        "Gb",
+        "Bb"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        6,
+        10
+      ],
+      "mood_tendency_zh": "悬念、脆弱",
+      "typical_use_zh": "小调iiø7"
+    },
+    {
+      "type": "dim7",
+      "example": "Cdim7",
+      "notes_C": [
+        "C",
+        "Eb",
+        "Gb",
+        "Bbb"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "mood_tendency_zh": "戏剧、尖锐",
+      "typical_use_zh": "导向/经过"
+    },
+    {
+      "type": "aug7",
+      "example": "C7#5",
+      "notes_C": [
+        "C",
+        "E",
+        "G#",
+        "Bb"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        8,
+        10
+      ],
+      "mood_tendency_zh": "强烈、奇异",
+      "typical_use_zh": "变化属和弦"
+    },
+    {
+      "type": "9",
+      "example": "C9",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "Bb",
+        "D"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        10,
+        14
+      ],
+      "mood_tendency_zh": "浓郁、活跃",
+      "typical_use_zh": "funk/蓝调"
+    },
+    {
+      "type": "maj9",
+      "example": "Cmaj9",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "B",
+        "D"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        11,
+        14
+      ],
+      "mood_tendency_zh": "细腻、梦幻",
+      "typical_use_zh": "氛围/R&B"
+    },
+    {
+      "type": "m9",
+      "example": "Cm9",
+      "notes_C": [
+        "C",
+        "Eb",
+        "G",
+        "Bb",
+        "D"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        7,
+        10,
+        14
+      ],
+      "mood_tendency_zh": "深沉、温润",
+      "typical_use_zh": "夜景/Lo-fi"
+    },
+    {
+      "type": "11",
+      "example": "C11",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "Bb",
+        "D",
+        "F"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        10,
+        14,
+        17
+      ],
+      "mood_tendency_zh": "悬浮、复杂",
+      "typical_use_zh": "属11；常省三度"
+    },
+    {
+      "type": "m11",
+      "example": "Cm11",
+      "notes_C": [
+        "C",
+        "Eb",
+        "G",
+        "Bb",
+        "D",
+        "F"
+      ],
+      "semitones_from_root": [
+        0,
+        3,
+        7,
+        10,
+        14,
+        17
+      ],
+      "mood_tendency_zh": "舒展、忧郁",
+      "typical_use_zh": "小调氛围"
+    },
+    {
+      "type": "13",
+      "example": "C13",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "Bb",
+        "D",
+        "F",
+        "A"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        10,
+        14,
+        17,
+        21
+      ],
+      "mood_tendency_zh": "丰富、都市感",
+      "typical_use_zh": "属13；常省五/十一"
+    },
+    {
+      "type": "9sus4",
+      "example": "C9sus4",
+      "notes_C": [
+        "C",
+        "F",
+        "G",
+        "Bb",
+        "D"
+      ],
+      "semitones_from_root": [
+        0,
+        5,
+        7,
+        10,
+        14
+      ],
+      "mood_tendency_zh": "开放、蓄势",
+      "typical_use_zh": "属挂留"
+    },
+    {
+      "type": "7b9",
+      "example": "C7b9",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "Bb",
+        "Db"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        10,
+        13
+      ],
+      "mood_tendency_zh": "紧迫、强张力",
+      "typical_use_zh": "小调属终止"
+    },
+    {
+      "type": "7#9",
+      "example": "C7#9",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "Bb",
+        "D#"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        10,
+        15
+      ],
+      "mood_tendency_zh": "粗粝、激情",
+      "typical_use_zh": "摇滚/融合"
+    },
+    {
+      "type": "maj7#11",
+      "example": "Cmaj7#11",
+      "notes_C": [
+        "C",
+        "E",
+        "G",
+        "B",
+        "F#"
+      ],
+      "semitones_from_root": [
+        0,
+        4,
+        7,
+        11,
+        18
+      ],
+      "mood_tendency_zh": "漂浮、闪亮",
+      "typical_use_zh": "Lydian色彩"
+    }
+  ]
+}

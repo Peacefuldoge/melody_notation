@@ -1,0 +1,9 @@
+title: 像素冒险 · 演奏记号练习
+key: C
+time: 4/4
+bpm: 132
+notes:
+| 1{tr} 2{mordent} 3{turn} 5{staccato} |
+| 6{accent} 5{tenuto} 3{lower_mordent} 1{tremolo} |
+| ( 1' 7{tr} 6{staccato} 5 ) |
+| 3{accent} 2{mordent} 1 - |
