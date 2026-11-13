@@ -1817,6 +1817,7 @@ class MelodyMainWindow(QMainWindow):
         project_menu.addSeparator()
         project_menu.addAction('新建子文件夹',self.new_folder)
         project_menu.addAction('重命名项目文件',self.rename_selected)
+        project_menu.addAction('删除选中项目项…',self.delete_selected_project_item)
         self.operations.clicked.connect(
             lambda: project_menu.popup(self.operations.mapToGlobal(
                 self.operations.rect().bottomLeft())))
@@ -2038,12 +2039,71 @@ class MelodyMainWindow(QMainWindow):
     def _item_menu(self,point):
         item=self.project_tree.itemAt(point)
         if not item:return
+        # Context actions must operate on the row the user right-clicked,
+        # not on a previously selected item elsewhere in the tree.
+        self.project_tree.setCurrentItem(item)
         path=item.data(0,Qt.ItemDataRole.UserRole)
+        target=Path(path)
         menu=QMenu(self)
-        if path and Path(path).is_file():menu.addAction('打开',lambda:self.open_file(Path(path)))
-        menu.addAction('重命名',self.rename_selected)
-        menu.addAction('新建子文件夹',self.new_folder)
+        if target.is_file():menu.addAction('打开',lambda:self.open_file(target))
+        if self.project is not None and target!=self.project.root:
+            menu.addAction('重命名',self.rename_selected)
+        if target.is_dir():menu.addAction('新建子文件夹',self.new_folder)
+        menu.addSeparator()
+        label=('删除项目（移至回收站）…' if self.project is not None and target==self.project.root
+               else '删除文件夹（移至回收站）…' if target.is_dir()
+               else '删除文件（移至回收站）…')
+        menu.addAction(label,self.delete_selected_project_item)
         menu.exec(self.project_tree.viewport().mapToGlobal(point))
+
+    def delete_selected_project_item(self):
+        """Delete the selected disk item, closing only tabs beneath that path."""
+        if self.project is None:return
+        item=self.project_tree.currentItem()
+        if item is None:return
+        raw=item.data(0,Qt.ItemDataRole.UserRole)
+        if not raw:return
+        target=Path(raw)
+        root=self.project.root
+        is_project=target==root
+        is_folder=target.is_dir()
+        affected=[doc for doc in self.open_docs if doc.path is not None and
+                  (doc.path==target or (is_folder and doc.path.is_relative_to(target)))]
+        dirty=[doc for doc in affected if doc.dirty or getattr(doc.widget,'source_dirty',False)]
+        kind='整个项目' if is_project else ('文件夹' if is_folder else '文件')
+        details=(f'“{target.name}”及其所有内容将移入系统回收站。' if is_folder else
+                 f'“{target.name}”将移入系统回收站。')
+        if dirty:
+            details+=f'\n\n注意：{len(dirty)} 个打开的文档有未保存修改，确认删除后这些草稿会丢失。'
+        elif affected:
+            details+=f'\n\n将同时关闭 {len(affected)} 个打开的编辑标签。'
+        if not is_project and (is_folder or target.suffix.lower() in ('.jianpu','.drum')):
+            details+='\n\n提示：如果其他多轨编排引用了这些素材，删除后对应片段可能无法播放。'
+        choice=QMessageBox.question(
+            self,f'删除{kind}',details+'\n\n确定继续吗？',
+            QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Cancel)
+        if choice!=QMessageBox.StandardButton.Yes:return
+        try:
+            if is_project:self.project.delete_project()
+            else:self.project.delete(target.relative_to(root))
+        except Exception as exc:
+            error(self,'删除失败',exc)
+            return
+        if affected:
+            self.stop()
+        for doc in affected:
+            if doc.kind=='jianpu':doc.widget.set_input_active(False)
+            index=self.tabs.indexOf(doc.widget)
+            self.open_docs.remove(doc)
+            if index>=0:self.tabs.removeTab(index)
+            doc.widget.deleteLater()
+        if is_project:
+            self.project=None
+            self.refresh_recents()
+        self.refresh_project_tree()
+        self._update_tab_labels()
+        self.statusBar().showMessage(f'已移入系统回收站：{target.name}',6000)
 
     def _selected_dir(self):
         if self.project is None:raise ValueError('请先打开或创建项目')

@@ -7,7 +7,7 @@ name = "melody-notation"
 version = "0.5.10"
 description = "Editable numbered notation, multitrack arrangements, drum sequencer, MIDI/audio/PNG, and Codex/DeepSeek Harness MCP tools"
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.24", "Pillow>=10", "pretty_midi>=0.2.10,<0.3", "soundfile>=0.12"]
+dependencies = ["numpy>=1.24", "Pillow>=10", "pretty_midi>=0.2.10,<0.3", "soundfile>=0.12", "Send2Trash>=1.8,<2"]
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]

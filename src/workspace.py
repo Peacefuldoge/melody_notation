@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 from typing import Optional
+from send2trash import send2trash
 
 from .core import Score, parse_text, text_from_score
 
@@ -191,6 +192,53 @@ class ProjectWorkspace:
             arr.save(arr_file)
         return destination
 
+    def delete(self, relative: str | Path) -> Path:
+        """Move one project document/subfolder to the operating system's Trash.
+
+        Root deletion is deliberately a separate, more guarded operation. Neither
+        symlinks nor paths that leave the project can be deleted through this API.
+        """
+        raw = Path(relative)
+        if raw.is_absolute() or not raw.parts or raw == Path('.'):
+            raise WorkspaceError('只能删除当前项目内部的文件或子文件夹')
+        # Resolve only AFTER checking path components. Otherwise a link within
+        # the project could cause its destination, rather than the link, to move.
+        candidate = self.root
+        for component in raw.parts:
+            candidate = candidate / component
+            if candidate.is_symlink():
+                raise WorkspaceError('为了安全，不支持从项目树删除符号链接')
+        target = self.resolve(raw)
+        if not target.exists():
+            raise WorkspaceError('要删除的项目项已不存在')
+        if not (target.is_file() and target.suffix.lower() in ('.jianpu','.drum','.mtrack')
+                or target.is_dir()):
+            raise WorkspaceError('只能删除 Melody 文件或项目子文件夹')
+        send2trash(str(target))
+        return target
+
+    def delete_project(self) -> Path:
+        """Move a Melody-created project directory to Trash, never any folder."""
+        manifest = self.root / MANIFEST
+        if manifest.is_symlink() or not manifest.is_file():
+            raise WorkspaceError('该目录没有有效的 Melody 项目标识，不能在软件内删除整个目录')
+        try:
+            data = json.loads(manifest.read_text(encoding='utf-8'))
+        except (OSError, ValueError, TypeError) as exc:
+            raise WorkspaceError('项目标识无效，已阻止整项目删除') from exc
+        if not isinstance(data, dict) or data.get('format') != 'melody-notation-project':
+            raise WorkspaceError('项目标识无效，已阻止整项目删除')
+        if self.root == Path(self.root.anchor):
+            raise WorkspaceError('不能删除磁盘根目录')
+        send2trash(str(self.root))
+        # Trash has already succeeded; a read-only preferences directory must
+        # not make the caller believe deletion failed and retain stale tabs.
+        try:
+            forget_project(self.root)
+        except OSError:
+            pass
+        return self.root
+
 
 def validate_name(name: str) -> str:
     name = name.strip()
@@ -234,6 +282,17 @@ def remember_project(path: Path, limit: int = 12) -> list[Path]:
     path = Path(path).expanduser().resolve()
     items = [path] + [p for p in load_recent_projects(limit) if p != path]
     items = items[:limit]
+    target = recent_projects_file()
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps([str(p) for p in items], ensure_ascii=False, indent=2),
+                      encoding='utf-8')
+    return items
+
+
+def forget_project(path: Path) -> list[Path]:
+    """Remove an entry from the recent-projects history without deleting files."""
+    path = Path(path).expanduser().resolve()
+    items = [p for p in load_recent_projects() if p != path]
     target = recent_projects_file()
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps([str(p) for p in items], ensure_ascii=False, indent=2),

@@ -326,6 +326,7 @@ class WorkspaceMixin:
         menu.add_command(label='打开项目文件夹…',command=self.open_project)
         menu.add_command(label='新建子文件夹',command=self.new_subproject)
         menu.add_command(label='重命名选中项目项',command=self.rename_project_item)
+        menu.add_command(label='删除选中项目项…',command=self.delete_project_item)
         menu.add_command(label='刷新项目列表',command=self.refresh_project_tree)
         self._popup_menu(self.projects_more_button,menu)
 
@@ -615,17 +616,78 @@ class WorkspaceMixin:
 
     def _project_context_menu(self,event):
         item=self.project_tree.identify_row(event.y)
-        if item:self.project_tree.selection_set(item)
+        if not item:return
+        self.project_tree.selection_set(item)
+        path=self._tree_paths.get(item)
+        if path is None:return
         menu=self._menu(self.root)
-        menu.add_command(label='打开文件',command=self._on_tree_open)
+        if path.is_file():menu.add_command(label='打开文件',command=self._on_tree_open)
         menu.add_command(label='新建多音轨工程',command=self.new_arrangement)
         menu.add_command(label='新建鼓点',command=self.new_drum)
         menu.add_command(label='新建简谱',command=self.new_score)
         menu.add_command(label='新建子文件夹',command=self.new_subproject)
-        menu.add_command(label='重命名',command=self.rename_project_item)
+        if self.project is not None and path!=self.project.root:
+            menu.add_command(label='重命名',command=self.rename_project_item)
+        menu.add_separator()
+        menu.add_command(label=('删除项目（移至回收站）…' if self.project is not None and path==self.project.root
+                                else '删除文件夹（移至回收站）…' if path.is_dir()
+                                else '删除文件（移至回收站）…'),command=self.delete_project_item)
         menu.add_command(label='刷新',command=self.refresh_project_tree)
         menu.tk_popup(event.x_root,event.y_root)
         menu.grab_release()
+
+    def delete_project_item(self):
+        """Move a selected Melody document, folder or project to Trash."""
+        selection=self.project_tree.selection()
+        if not selection:return
+        path=self._tree_paths.get(selection[0])
+        project_root=self._project_for_path(path)
+        if path is None or project_root is None:return
+        project=ProjectWorkspace(project_root)
+        is_project=path==project.root
+        is_folder=path.is_dir()
+        self._remember_active()
+        affected=[doc for doc in self.documents if doc.path is not None and
+                  (doc.path==path or (is_folder and doc.path.is_relative_to(path)))]
+        dirty=[doc for doc in affected if doc.dirty]
+        # External drum/arrangement editors can save after this function returns;
+        # require their windows to close first to prevent recreating deleted files.
+        for editor in getattr(self,'_asset_editors',{}).values():
+            if (editor.window.winfo_exists() and
+                    (editor.path==path or (is_folder and editor.path.is_relative_to(path)))):
+                messagebox.showwarning('请先关闭编辑器',
+                    '请先关闭该文件或子文件夹中的鼓点／多轨编辑窗口，再执行删除。')
+                return
+        question=(f'将“{path.name}”及其所有内容移入系统回收站？' if is_folder else
+                  f'将“{path.name}”移入系统回收站？')
+        if dirty:
+            question+=f'\n\n{len(dirty)} 个打开的简谱有未保存更改，删除后草稿会丢失。'
+        if not is_project and (is_folder or path.suffix.lower() in ('.jianpu','.drum')):
+            question+='\n\n若多轨工程引用了这些素材，相应片段可能无法播放。'
+        if not messagebox.askyesno('删除项目' if is_project else '删除项目项',
+                                   question+'\n\n确定继续吗？',parent=self.root):
+            return
+        try:
+            if is_project:project.delete_project()
+            else:project.delete(path.relative_to(project.root))
+        except Exception as exc:
+            messagebox.showerror('删除失败',str(exc))
+            return
+        affected_ids={id(doc) for doc in affected}
+        self.documents=[doc for doc in self.documents if id(doc) not in affected_ids]
+        if self.active_document is not None and id(self.active_document) in affected_ids:
+            self.active_document=None
+            if self.documents:self._activate(self.documents[-1])
+            else:self._open_untitled_tab(parse_text(self._blank_score_text()),'未命名')
+        else:
+            self._render_tabs()
+        if is_project:
+            self._recent_projects=[p for p in self._recent_projects if p!=project.root]
+            if self.project is not None and self.project.root==project.root:
+                self.project=None
+            # delete_project() already removed it from persistent recents.
+        self.refresh_project_tree()
+        self.status.set('已移入系统回收站：'+path.name)
 
     def new_subproject(self):
         if self.project is None:
