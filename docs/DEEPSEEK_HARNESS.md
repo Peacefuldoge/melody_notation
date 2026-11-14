@@ -67,4 +67,4 @@ python -m melody_notation.cli ocr 'my_score.png' -o 'output/vision_draft.jianpu'
 
 示例：先用 `inspect_score` 检查音符索引，然后 `edit_note(path="examples/visual_demo.jianpu",measure_number=2,note_number=3,degree=5,octave=1,overwrite=true)`；编辑后的错误小节可通过 `inspect_score` 查看 `issues`，修正后再导出。
 
-连音线与延音线不是一回事：本版 `create_slur` 只绘制连音弧线，不合并 MIDI 音符时长。视觉界面需使用 `python -m melody_notation.cli gui` 单独启动；DSH 是工具客户端，并不会在 Harness 内嵌入 Tkinter 窗口。
+连音线与延音线不是一回事：本版 `create_slur` 只绘制连音弧线，不合并 MIDI 音符时长。DSH 通过 MCP 调用工具。使用 `python -m melody_notation.cli gui` 可单独启动 PySide6 桌面界面。

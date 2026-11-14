@@ -22,7 +22,7 @@ def main():
     ocr.add_argument('--model')
     gui = commands.add_parser('gui', help='open PySide6 project workspace')
     gui.add_argument('project', nargs='?', help='optional project folder')
-    commands.add_parser('tk-gui', help='open previous Tkinter workspace (legacy)')
+    commands.add_parser('tk-gui', help='open the legacy desktop editor')
     args=p.parse_args()
     if args.command=='gui':
         from .diagnostics import enable_gui_crash_log

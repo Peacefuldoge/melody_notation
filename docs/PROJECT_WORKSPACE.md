@@ -51,4 +51,4 @@ MCP 仍由 `mcp_server.py` 的 `MELODY_WORKSPACE` 约束路径；不自动同步
 
 ### v0.3 补充：多轨文件
 
-项目树现可识别 `.jianpu`、`.drum`、`.mtrack`。后两者分别在独立 Tkinter 步进编辑器和多轨时间线中打开；完整用法见 [MULTITRACK_DRUMS.md](MULTITRACK_DRUMS.md)。之前的“多音轨未实现”描述仅适用于 v0.2.x，v0.3 已加入基本的多轨混音和分轨 MIDI 导出，但尚不支持波形倒放或中央标签内直接编辑多轨。
+v0.3 在项目树中加入了 `.drum` 和 `.mtrack`，并提供多轨混音和分轨 MIDI 导出。当前 PySide6 界面会在中央文档标签中打开鼓点步进编辑器和多轨时间线。完整用法见 [MULTITRACK_DRUMS.md](MULTITRACK_DRUMS.md)。

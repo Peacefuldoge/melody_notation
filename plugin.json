@@ -2,5 +2,5 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "melody-notation",
   "version": "0.5.10",
-  "description": "Melody Notation with multitrack arranging, drum grid, harmony skill, Codex/DeepSeek MCP, and Tkinter workstation"
+  "description": "PySide6 desktop editor for numbered notation, drum patterns, and multitrack arrangements, with a harmony skill and MCP tools for Codex and DeepSeek Harness"
 }

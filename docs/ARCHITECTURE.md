@@ -38,7 +38,7 @@ Note
 ```mermaid
 flowchart LR
     A[Codex/Skill] --> B[MCP Server]
-    C[可点击 Tkinter GUI] --> J[Editing API]
+    C[PySide6 桌面界面] --> J[Editing API]
     J --> D[Core Score]
     B --> J
     E[视觉模型接口] --> F[识谱草稿]
@@ -99,7 +99,7 @@ DSH 通过同一个 MCP server 的 stdio 接口访问这些能力。
 
 - `src/drums.py`：`.drum` 模型，16 步鼓点、三种 GM 鼓声、三套自合成鼓组
 - `src/arrangement.py`：`.mtrack` 模型，保存多个 MIDI/鼓点轨道及不破坏原始乐谱的片段裁剪、反转和排序；混合 WAV/MP3、分轨 MIDI
-- `src/multitrack_gui.py`：两个独立 Tkinter 编辑窗口（鼓点 Step Sequencer / 多轨 Timeline）
+- `src/multitrack_gui.py`：v0.3.0 的独立鼓点与多轨编辑窗口。当前桌面版由 `src/qt_gui.py` 在文档标签中打开这两类编辑器。
 - `src/workspace.py`、`workspace_gui.py`：项目导航可新建、打开和重命名三种 Melody 文件；重命名素材会更新音轨工程引用
 - `src/mcp_server.py`：新增可供 Codex / DeepSeek Harness 调用的鼓点及多轨管理工具
 
